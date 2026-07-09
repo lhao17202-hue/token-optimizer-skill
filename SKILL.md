@@ -1,13 +1,13 @@
 ---
 name: token-optimizer
-description: Use when the user asks to compress, reduce, or optimize a skill's SKILL.md file. Triggers on phrases like "compress this skill", "optimize skill tokens", "reduce skill size", "make the skill smaller", "trim the skill definition", or "token optimize". Also triggers when the user points at a SKILL.md and says "this is too long" or "make this shorter".
+description: Use when the user asks to compress, reduce, or optimize a skill's SKILL.md file. Triggers on "compress this skill", "optimize skill tokens", "reduce skill size", "make the skill smaller", "trim the skill definition", "token optimize", "skill is too long", or "make this shorter".
 ---
 
 # Token Optimizer
 
-Compress SKILL.md files by stripping prose while preserving every functional rule, constraint, and safety check. The compressed skill must behave identically to the original — if a rule existed before, it must be findable after.
+Compress SKILL.md files: strip prose, preserve rules. The compressed skill must behave identically to the original — every rule, constraint, safety check, and format spec must survive.
 
-**Core principle: when in doubt, keep it.** Cutting a borderline sentence saves ~10 tokens. Missing a constraint breaks the skill. Err toward keeping.
+**When in doubt, keep it.** Cutting a borderline sentence saves ~10 tokens. Missing a constraint breaks the skill.
 
 ## When NOT to use
 
@@ -16,9 +16,9 @@ Compress SKILL.md files by stripping prose while preserving every functional rul
 - User asks to **add** something to a skill — expanding, not compressing
 - The target is not a SKILL.md — this skill only compresses skill definitions, not arbitrary files
 
-## What survives (always)
+## What survives
 
-These categories are untouchable. Do not rewrite, paraphrase, or shorten them:
+These categories are untouchable — do not rewrite, paraphrase, or shorten:
 
 - **Safety rules** — danger blocks, "never do X", permission checks, `<HARD-GATE>` content
 - **Parameter specs** — names, types, required/optional, valid ranges, enums
@@ -58,7 +58,7 @@ This copies the original SKILL.md into `token-optimizer/backups/<skill-name>/SKI
 
 ### 2. Read the target
 
-Read the full SKILL.md. Understand what this skill does before compressing it — you can't know what's essential without understanding the skill's job.
+Read the full SKILL.md. Understand the skill before compressing it — you cannot identify what is essential otherwise.
 
 ### 3. Compress
 
@@ -88,7 +88,7 @@ Go through this checklist against the ORIGINAL. For each item, verify it appears
 
 ### 5. Report
 
-Count tokens before and after. Use `scripts/token-count.sh` if available, otherwise estimate (1 token ≈ 0.75 words for English, 1 token ≈ 1.5 characters for Chinese).
+Count tokens before and after. Prefer `scripts/token-count.sh`; fall back to estimation (English: ~0.75 tokens/word; CJK: ~1.5 chars/token).
 
 Report concisely:
 
