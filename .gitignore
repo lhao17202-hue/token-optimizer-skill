@@ -1,0 +1,11 @@
+# Backup files (managed by token-optimizer)
+backups/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~
