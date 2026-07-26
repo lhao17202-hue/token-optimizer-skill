@@ -23,9 +23,16 @@ if [ ! -f "$FILE" ]; then
     exit 1
 fi
 
+PYTHON_BIN=""
+if command -v python3 >/dev/null 2>&1; then
+    PYTHON_BIN="python3"
+elif command -v python >/dev/null 2>&1; then
+    PYTHON_BIN="python"
+fi
+
 # Try tiktoken first
-if python3 -c "import tiktoken" 2>/dev/null; then
-    TOKENS=$(python3 -c "
+if [ -n "$PYTHON_BIN" ] && "$PYTHON_BIN" -c "import tiktoken" 2>/dev/null; then
+    TOKENS=$("$PYTHON_BIN" -c "
 import tiktoken, sys
 enc = tiktoken.get_encoding('cl100k_base')
 with open(sys.argv[1], 'r', encoding='utf-8') as f:
@@ -43,8 +50,8 @@ TOTAL_WORDS=$(wc -w < "$FILE" 2>/dev/null || echo 0)
 TOTAL_CHARS=$(wc -m < "$FILE" 2>/dev/null || echo 0)
 
 # Try to count CJK characters specifically
-if command -v python3 >/dev/null 2>&1; then
-    CJK_COUNT=$(python3 -c "
+if [ -n "$PYTHON_BIN" ]; then
+    CJK_COUNT=$("$PYTHON_BIN" -c "
 import sys
 with open(sys.argv[1], 'r', encoding='utf-8') as f:
     text = f.read()
