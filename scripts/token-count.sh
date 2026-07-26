@@ -28,10 +28,10 @@ if python3 -c "import tiktoken" 2>/dev/null; then
     TOKENS=$(python3 -c "
 import tiktoken, sys
 enc = tiktoken.get_encoding('cl100k_base')
-with open('$FILE', 'r', encoding='utf-8') as f:
+with open(sys.argv[1], 'r', encoding='utf-8') as f:
     text = f.read()
 print(len(enc.encode(text)))
-")
+" "$FILE")
     echo "$TOKENS"
     exit 0
 fi
@@ -46,7 +46,7 @@ TOTAL_CHARS=$(wc -m < "$FILE" 2>/dev/null || echo 0)
 if command -v python3 >/dev/null 2>&1; then
     CJK_COUNT=$(python3 -c "
 import sys
-with open('$FILE', 'r', encoding='utf-8') as f:
+with open(sys.argv[1], 'r', encoding='utf-8') as f:
     text = f.read()
 # CJK Unified Ideographs: U+4E00–U+9FFF
 # CJK Symbols/Punctuation: U+3000–U+303F
@@ -61,7 +61,7 @@ cjk = sum(1 for c in text if (
     '＀' <= c <= '￯'
 ))
 print(cjk)
-" 2>/dev/null || echo 0)
+" "$FILE" 2>/dev/null || echo 0)
 else
     CJK_COUNT=0
 fi
